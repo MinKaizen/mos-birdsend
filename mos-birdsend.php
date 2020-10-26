@@ -69,6 +69,10 @@ $min_php = '5.6.0';
 
 // Check the minimum required PHP version and run the plugin.
 if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
+	// Composer autoloader
+	if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+    require __DIR__ . '/vendor/autoload.php';
+	}
 	$mos_birdsend_plugin = new MOS_Birdsend();
 	$mos_birdsend_plugin->init();
 }
