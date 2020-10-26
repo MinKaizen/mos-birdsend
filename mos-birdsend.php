@@ -53,6 +53,7 @@ class MOS_Birdsend {
 	private function load_dependencies() {
 		require( PLUGIN_DIR . '/inc/Handlers.php' );
 		require( PLUGIN_DIR . '/inc/Routes.php' );
+		require( PLUGIN_DIR . '/inc/config.php' );
 	}
 
 	private function register_actions() {
