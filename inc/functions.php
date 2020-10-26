@@ -4,7 +4,7 @@ namespace MOS_Birdsend;
 
 use GuzzleHttp\Client;
 
-function log_gform_activate_user( $user_id, $user_data, $signup_meta ) {
+function log_gform_activate_user( $user_id ) {
     $url = 'https://fa9438717d678d74b5cb20e6e5b41923.m.pipedream.net';
     $client = new Client([
         'base_uri' => $url,
@@ -22,8 +22,6 @@ function log_gform_activate_user( $user_id, $user_data, $signup_meta ) {
             'event' => 'Register New User',
             'time' => date('g:i:s'),
             'user_id' => $user_id,
-            'user_data' => $user_data,
-            'signup_meta' => $signup_meta,
         ],
     ];
 
