@@ -1,6 +1,6 @@
 <?php
 
-namespace MOS_Birdsend\Handlers;
+namespace MOS_Birdsend;
 
 use GuzzleHttp\Client;
 

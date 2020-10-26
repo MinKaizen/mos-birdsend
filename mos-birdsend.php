@@ -51,12 +51,12 @@ class MOS_Birdsend {
 	}
 
 	private function load_dependencies() {
-		require( PLUGIN_DIR . '/inc/Handlers.php' );
+		require( PLUGIN_DIR . '/inc/functions.php' );
 		require( PLUGIN_DIR . '/inc/config.php' );
 	}
 
 	private function register_actions() {
-		\add_action( 'gform_activate_user', 'MOS_Birdsend\Handlers\log_gform_activate_user', 10, 3 ); 
+		\add_action( 'gform_activate_user', 'MOS_Birdsend\log_gform_activate_user', 10, 3 ); 
 	}
 
 }
