@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Plugin_Name\Inc\Frontend;
+namespace MOS_Birdsend\Inc\Frontend;
 
 /**
  * The public-facing functionality of the plugin.
@@ -8,10 +8,10 @@ namespace WP_Plugin_Name\Inc\Frontend;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the public-facing stylesheet and JavaScript.
  *
- * @link       http://example.com
+ * @link       http://myonlinestartup.com
  * @since      1.0.0
  *
- * @author    Your Name or Your Company
+ * @author    My Online Startup
  */
 class Frontend {
 
@@ -77,7 +77,7 @@ class Frontend {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-plugin-name-frontend.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/mos-birdsend-frontend.css', array(), $this->version, 'all' );
 
 	}
 
@@ -100,7 +100,7 @@ class Frontend {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-plugin-name-frontend.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mos-birdsend-frontend.js', array( 'jquery' ), $this->version, false );
 
 	}
 

@@ -5,10 +5,10 @@
  *
  * This file is used to markup the admin-facing aspects of the plugin.
  *
- * @link       http://example.com
+ * @link       http://myonlinestartup.com
  * @since      1.0.0
  *
- * @author    Your Name or Your Company
+ * @author    My Online Startup
  */
 
 ?>

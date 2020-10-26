@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Plugin_Name\Inc\Admin;
+namespace MOS_Birdsend\Inc\Admin;
 
 /**
  * The admin-specific functionality of the plugin.
@@ -8,10 +8,10 @@ namespace WP_Plugin_Name\Inc\Admin;
  * Defines the plugin name, version, and two examples hooks for how to
  * enqueue the admin-specific stylesheet and JavaScript.
  *
- * @link       http://example.com
+ * @link       http://myonlinestartup.com
  * @since      1.0.0
  *
- * @author    Your Name or Your Company
+ * @author    My Online Startup
  */
 class Admin {
 
@@ -77,7 +77,7 @@ class Admin {
 		 * class.
 		 */
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-plugin-name-admin.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/mos-birdsend-admin.css', array(), $this->version, 'all' );
 
 	}
 
@@ -99,7 +99,7 @@ class Admin {
 		 * class.
 		 */
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-plugin-name-admin.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/mos-birdsend-admin.js', array( 'jquery' ), $this->version, false );
 
 	}
 

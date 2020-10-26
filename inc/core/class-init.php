@@ -1,18 +1,18 @@
 <?php
 
-namespace WP_Plugin_Name\Inc\Core;
-use WP_Plugin_Name as NS;
-use WP_Plugin_Name\Inc\Admin as Admin;
-use WP_Plugin_Name\Inc\Frontend as Frontend;
+namespace MOS_Birdsend\Inc\Core;
+use MOS_Birdsend as NS;
+use MOS_Birdsend\Inc\Admin as Admin;
+use MOS_Birdsend\Inc\Frontend as Frontend;
 
 /**
  * The core plugin class.
  * Defines internationalization, admin-specific hooks, and public-facing site hooks.
  *
- * @link       http://example.com
+ * @link       http://myonlinestartup.com
  * @since      1.0.0
  *
- * @author     Your Name or Your Company
+ * @author     My Online Startup
  */
 class Init {
 

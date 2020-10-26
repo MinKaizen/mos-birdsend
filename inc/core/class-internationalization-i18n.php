@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_Plugin_Name\Inc\Core;
+namespace MOS_Birdsend\Inc\Core;
 
 /**
  * Define the internationalization functionality.
@@ -8,10 +8,10 @@ namespace WP_Plugin_Name\Inc\Core;
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       http://example.com
+ * @link       http://myonlinestartup.com
  * @since      1.0.0
  *
- * @author     Your Name or Your Company
+ * @author     My Online Startup
  */
 class Internationalization_I18n {
 
