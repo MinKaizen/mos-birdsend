@@ -12,9 +12,9 @@
  * @package           MOS_Birdsend
  *
  * @wordpress-plugin
- * Plugin Name:       WordPress Plugin Boilerplate
+ * Plugin Name:       MOS Birdsend
  * Plugin URI:        http://myonlinestartup.com/
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       Birdsend API client
  * Version:           1.0.0
  * Author:            My Online Startup
  * Author URI:        http://myonlinestartup.com/
