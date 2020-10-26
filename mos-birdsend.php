@@ -60,10 +60,6 @@ class MOS_Birdsend {
 		\add_action( 'gform_activate_user', 'MOS_Birdsend\Handlers\log_gform_activate_user', 10, 3 ); 
 	}
 
-	public function test_method() {
-		return "Hello world!";
-	}
-
 }
 
 $min_php = '5.6.0';
