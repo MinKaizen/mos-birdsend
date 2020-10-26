@@ -26,8 +26,6 @@
 
 namespace MOS_Birdsend;
 
-use MOS_Birdsend\Router;
-
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
 	die;
