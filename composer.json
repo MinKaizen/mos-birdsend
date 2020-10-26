@@ -1,0 +1,13 @@
+{
+    "name": "mos/mos-birdsend",
+    "description": "Birdsend API client",
+    "type": "wordpress-plugin",
+    "authors": [
+        {
+            "name": "Martin Cao",
+            "email": "martin.g.cao@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
