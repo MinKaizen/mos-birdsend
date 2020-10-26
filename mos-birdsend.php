@@ -57,7 +57,6 @@ class MOS_Birdsend {
 	}
 
 	private function register_actions() {
-		\add_action( 'rest_api_init', 'MOS_Birdsend\Routes\test_route');
 		\add_action( 'gform_activate_user', 'MOS_Birdsend\Handlers\log_gform_activate_user', 10, 3 ); 
 	}
 
