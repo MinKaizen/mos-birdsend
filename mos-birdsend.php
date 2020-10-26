@@ -24,7 +24,7 @@
  * Domain Path:       /languages
  */
 
-namespace MOS_Birdsend;
+namespace MOS\Birdsend;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
