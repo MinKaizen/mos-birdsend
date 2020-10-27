@@ -5,6 +5,7 @@ namespace MOS_Birdsend;
 use GuzzleHttp\Client;
 
 function subscribe_to_mos_members( int $user_id ) {
+    $body = prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS );
     $client = new Client( [
         'base_uri' => BASE_URL_CONTACTS,
         'headers' => [
@@ -12,7 +13,7 @@ function subscribe_to_mos_members( int $user_id ) {
             'Accept' => HEADER_ACCEPT,
             'Content-type' => HEADER_CONTENT_TYPE,
         ],
-        'json' => prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS ),
+        'json' => $body,
     ] );
 
     $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
