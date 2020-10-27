@@ -29,3 +29,23 @@ function log_gform_activate_user( $user_id ) {
 
     return $response;
 }
+
+function prepare_payload( int $user_id, int $sequence_id ): array {
+    $user = \get_user_by( 'id', $user_id );
+
+    if ( !( $user instanceof \WP_User ) ) {
+        return [];
+    }
+
+    $data = [
+        'email' => $user->user_email,
+        'sequence_id' => $sequence_id,
+        'fields' => [
+            'first_name' => $user->get('first_name'),
+            'username' => $user->get('user_login'),
+            'ip_address' => $user->get('ip'),
+        ],
+    ];
+
+    return $data;
+}
