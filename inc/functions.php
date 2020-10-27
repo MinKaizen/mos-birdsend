@@ -43,7 +43,7 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
 }
 
 function log( string $response ): void {
-    $message = date('D/M/Y H:i') . ": " . $response;
+    $message = date('Y-n-j H:i') . ": " . $response;
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
     $log_file = $logs_dir . '/birdsend.log';
