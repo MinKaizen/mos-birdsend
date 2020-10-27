@@ -78,5 +78,5 @@ function log( string $event_name, $message ): void {
         mkdir( $logs_dir, 0755, true );
     }
 
-    file_put_contents( $log_file . PHP_EOL, $log_message );
+    file_put_contents( $log_file . PHP_EOL, $log_message, \FILE_APPEND );
 }
