@@ -56,7 +56,7 @@ class MOS_Birdsend {
 	}
 
 	private function register_actions() {
-		\add_action( 'gform_activate_user', 'MOS_Birdsend\log_gform_activate_user' ); 
+		\add_action( 'gform_activate_user', 'MOS_Birdsend\subscribe_to_mos_members' ); 
 	}
 
 }
