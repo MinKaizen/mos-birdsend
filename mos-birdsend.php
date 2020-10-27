@@ -45,7 +45,7 @@ define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 require( PLUGIN_DIR . '/inc/activate.php' );
 \register_activation_hook( __FILE__, '\MOS_Birdsend\Activate\_on_activate' );
 
-class MOS_Birdsend {
+class MosBirdsendPlugin {
 
 	public function init() {
 		$this->load_dependencies();
@@ -67,5 +67,5 @@ class MOS_Birdsend {
 if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
 	require __DIR__ . '/vendor/autoload.php';
 }
-$mos_birdsend_plugin = new MOS_Birdsend();
+$mos_birdsend_plugin = new MosBirdsendPlugin();
 $mos_birdsend_plugin->init();
