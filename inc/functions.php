@@ -31,6 +31,17 @@ function subscribe_to_mos_members( int $user_id ) {
     }
 }
 
+function is_exception_email_taken( $guzzle_response ) {
+    if ( !method_exists( $guzzle_response, 'getBody' ) ) {
+        return false;
+    }
+
+    $body = json_decode( (string) $guzzle_response->getBody() );
+    $is_email_taken = !empty( $body->errors->email[0] ) && $body->errors->email[0] == ERROR_MESSAGE_EMAIL_TAKEN;
+
+    return $is_email_taken;
+}
+
 function get_contact_id( $email ) {
     $client = new Client( [
         'base_uri' => BASE_URL_CONTACTS,
