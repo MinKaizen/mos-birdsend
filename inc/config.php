@@ -14,3 +14,6 @@ define( 'HEADER_CONTENT_TYPE', 'application/json' );
 // Birdsend sequence IDs
 define( 'SEQUENCE_MOS_MEMBERS', 896 );
 define( 'SEQUENCE_MOS_PARTNERS', 922 );
+
+// Error messages
+define( 'ERROR_MESSAGE_EMAIL_TAKEN', 'The Email has already been taken.' );
