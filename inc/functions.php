@@ -23,6 +23,7 @@ function log_gform_activate_user( $user_id ) {
     ];
 
     $response = $client->get( $url, $request_args );
+    log_response( json_encode($response) );
 
     return $response;
 }
