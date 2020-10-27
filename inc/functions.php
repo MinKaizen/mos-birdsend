@@ -23,6 +23,11 @@ function subscribe_to_mos_members( int $user_id ) {
         $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
     } catch (RequestException $e) {
         $responses['create_contact'] = $e->getResponse();
+        if ( is_exception_email_taken( $responses['create_contact'] ) ) {
+            $contact_id = get_contact_id( $body['email'] );
+            $responses['update_contact'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
+            $responses['subscribe_contact'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
+        }
     }
 
     foreach ( $responses as $event_name => $response ) {
