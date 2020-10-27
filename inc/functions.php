@@ -17,12 +17,9 @@ function log_gform_activate_user( $user_id ) {
         
     ]);
 
+    $body = prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS );
     $request_args = [
-        'json' => [
-            'event' => 'Register New User',
-            'time' => date('g:i:s'),
-            'user_id' => $user_id,
-        ],
+        'json' => $body,
     ];
 
     $response = $client->get( $url, $request_args );
