@@ -46,3 +46,15 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
 
     return $data;
 }
+
+function log_response( string $response ): void {
+    $uploads_dir  = \wp_get_upload_dir();
+    $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
+    $log_file = $logs_dir . '/birdsend.log';
+
+    if ( ! is_dir( $logs_dir ) ) {
+        mkdir( $logs_dir, 0755, true );
+    }
+
+    file_put_contents( $log_file . PHP_EOL, $response );
+}
