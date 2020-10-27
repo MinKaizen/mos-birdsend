@@ -42,7 +42,7 @@ function get_contact_id( $email ) {
     
     $response = $client->get( BASE_URL_CONTACTS );
     $body = json_decode( $response->getBody());
-    $contact_id = $body['data'][0]['contact_id'];
+    $contact_id = $body->data[0]->contact_id;
     
     return $contact_id;
 }
