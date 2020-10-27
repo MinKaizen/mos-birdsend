@@ -23,7 +23,7 @@ function log_gform_activate_user( $user_id ) {
     ];
 
     $response = $client->get( $url, $request_args );
-    log_response( json_encode($response) );
+    log_response( $response );
 
     return $response;
 }
@@ -48,7 +48,13 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
     return $data;
 }
 
-function log_response( string $response ): void {
+function log_response( $response ): void {
+    if ( is_array( $response ) ) {
+        $message = print_r( $response, true );
+    } elseif ( is_string( $response ) ) {
+        $message = $response;
+    }
+
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
     $log_file = $logs_dir . '/birdsend.log';
@@ -57,5 +63,5 @@ function log_response( string $response ): void {
         mkdir( $logs_dir, 0755, true );
     }
 
-    file_put_contents( $log_file . PHP_EOL, $response );
+    file_put_contents( $log_file . PHP_EOL, $message );
 }
