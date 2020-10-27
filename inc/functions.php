@@ -43,11 +43,7 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
 }
 
 function log_response( $response ): void {
-    if ( is_array( $response ) ) {
-        $message = print_r( $response, true );
-    } elseif ( is_string( $response ) ) {
-        $message = $response;
-    }
+    $message = print_r( $response, true );
 
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
