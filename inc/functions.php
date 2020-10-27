@@ -1,6 +1,6 @@
 <?php
 
-namespace MOS_Birdsend;
+namespace MOS\Birdsend;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;

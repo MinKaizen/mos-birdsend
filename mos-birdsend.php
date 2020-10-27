@@ -9,7 +9,7 @@
  *
  * @link              http://myonlinestartup.com
  * @since             1.0.0
- * @package           MOS_Birdsend
+ * @package           MOS/Birdsend
  *
  * @wordpress-plugin
  * Plugin Name:       MOS Birdsend
@@ -24,7 +24,7 @@
  * Domain Path:       /languages
  */
 
-namespace MOS_Birdsend;
+namespace MOS\Birdsend;
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -43,7 +43,7 @@ define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 require( PLUGIN_DIR . '/inc/activate.php' );
-\register_activation_hook( __FILE__, '\MOS_Birdsend\Activate\_on_activate' );
+\register_activation_hook( __FILE__, '\MOS\Birdsend\Activate\_on_activate' );
 
 class MosBirdsendPlugin {
 
@@ -58,7 +58,7 @@ class MosBirdsendPlugin {
 	}
 
 	private function register_actions() {
-		\MOS\Async\add_action_async( 'gform_activate_user', 'MOS_Birdsend\subscribe_to_mos_members' ); 
+		\MOS\Async\add_action_async( 'gform_activate_user', 'MOS\Birdsend\subscribe_to_mos_members' ); 
 	}
 
 }

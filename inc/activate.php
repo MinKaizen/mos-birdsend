@@ -1,6 +1,6 @@
 <?php
 
-namespace MOS_Birdsend\Activate;
+namespace MOS\Birdsend\Activate;
 
 define( 'MIN_PHP_VER', '5.6.0' );
 define( 'NOTICE_ERROR', 0 );

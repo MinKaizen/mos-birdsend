@@ -1,6 +1,6 @@
 <?php
 
-namespace MOS_Birdsend;
+namespace MOS\Birdsend;
 
 // Birdsend URL Endpoints
 define( 'BASE_URL_CONTACTS', 'https://api.birdsend.co/v1/contacts' );
