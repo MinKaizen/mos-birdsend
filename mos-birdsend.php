@@ -42,6 +42,8 @@ define( 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
+require( PLUGIN_DIR . '/inc/activate.php' );
+\register_activation_hook( __FILE__, '\MOS_Birdsend\Activate\_on_activate' );
 
 class MOS_Birdsend {
 
@@ -61,14 +63,9 @@ class MOS_Birdsend {
 
 }
 
-$min_php = '5.6.0';
-
-// Check the minimum required PHP version and run the plugin.
-if ( version_compare( PHP_VERSION, $min_php, '>=' ) ) {
-	// Composer autoloader
-	if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
-    require __DIR__ . '/vendor/autoload.php';
-	}
-	$mos_birdsend_plugin = new MOS_Birdsend();
-	$mos_birdsend_plugin->init();
+// Composer autoloader
+if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+	require __DIR__ . '/vendor/autoload.php';
 }
+$mos_birdsend_plugin = new MOS_Birdsend();
+$mos_birdsend_plugin->init();
