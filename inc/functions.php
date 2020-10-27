@@ -67,9 +67,9 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
     return $data;
 }
 
-function log( string $event_name, string $message ): void {
+function log( string $event_name, $message ): void {
     $time_stamp = date('Y-n-j H:i');
-    $log_message = "$time_stamp: [$event_name] $message";
+    $log_message = "$time_stamp: [$event_name] " . print_r( $message, true );
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
     $log_file = $logs_dir . '/birdsend.log';
