@@ -17,8 +17,9 @@ function subscribe_to_mos_members( int $user_id ) {
 
     $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
     
-    foreach ( $responses as $response ) {
-        log( (string) $response->getBody() );
+    foreach ( $responses as $event_name => $response ) {
+        $message = (string) $response->getBody();
+        log( $event_name, $message );
     }
 }
 
@@ -65,8 +66,9 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
     return $data;
 }
 
-function log( string $response ): void {
-    $message = date('Y-n-j H:i') . ": " . $response;
+function log( string $event_name, string $message ): void {
+    $time_stamp = date('Y-n-j H:i');
+    $log_message = "$time_stamp: [$event_name] $message";
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
     $log_file = $logs_dir . '/birdsend.log';
@@ -75,5 +77,5 @@ function log( string $response ): void {
         mkdir( $logs_dir, 0755, true );
     }
 
-    file_put_contents( $log_file . PHP_EOL, $message );
+    file_put_contents( $log_file . PHP_EOL, $log_message );
 }
