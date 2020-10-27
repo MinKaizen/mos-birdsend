@@ -3,8 +3,11 @@
 namespace MOS_Birdsend;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 
 function subscribe_to_mos_members( int $user_id ) {
+    $responses = [];
     $body = prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS );
     $client = new Client( [
         'base_uri' => BASE_URL_CONTACTS,
@@ -16,7 +19,11 @@ function subscribe_to_mos_members( int $user_id ) {
         'json' => $body,
     ] );
 
-    $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
+    try {
+        $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
+    } catch (RequestException $e) {
+        $responses['create_contact'] = $e->getResponse();
+    }
 
     foreach ( $responses as $event_name => $response ) {
         $log_message = generate_log_message( $event_name, $response );
