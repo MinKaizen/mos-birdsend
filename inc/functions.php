@@ -18,12 +18,8 @@ function subscribe_to_mos_members( int $user_id ) {
 
     $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
 
-    $time_stamp = date('Y-n-j H:i');
     foreach ( $responses as $event_name => $response ) {
-        $status_code = $response->getStatusCode();
-        $reason_phrase = $response->getReasonPhrase();
-        $body = (string) $response->getBody();
-        $log_message = "$time_stamp: [$event_name] [$status_code] ['$reason_phrase'] $body";
+        $log_message = generate_log_message( $event_name, $response );
         log( $log_message );
     }
 }
@@ -72,6 +68,7 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
 }
 
 function log( string $message ): void {
+    $time_stamp = date('Y-n-j H:i');
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
     $log_file = $logs_dir . '/birdsend.log';
@@ -80,5 +77,18 @@ function log( string $message ): void {
         mkdir( $logs_dir, 0755, true );
     }
 
-    file_put_contents( $log_file, $message . PHP_EOL, \FILE_APPEND );
+    file_put_contents( $log_file, "$time_stamp: $message" . PHP_EOL, \FILE_APPEND );
+}
+
+function generate_log_message( string $event_name , $guzzle_response ) {
+    if ( !method_exists( $guzzle_response, 'getBody' ) ) {
+        return "[LOG_ERROR] Tried to generate a log message for a non-guzzle response";
+    }
+
+    $status_code = $guzzle_response->getStatusCode();
+    $reason_phrase = $guzzle_response->getReasonPhrase();
+    $body = (string) $guzzle_response->getBody();
+    $log_message = "[$event_name] [$status_code] ['$reason_phrase'] $body";
+
+    return $log_message;
 }
