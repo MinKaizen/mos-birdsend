@@ -28,6 +28,24 @@ function log_gform_activate_user( $user_id ) {
     return $response;
 }
 
+function subscribe_and_update( int $user_id, int $sequence_id ) {
+    $client = new Client( [
+        'base_uri' => BASE_URL_CONTACTS,
+        'headers' => [
+            'Authorization' => HEADER_AUTH,
+            'Accept' => HEADER_ACCEPT,
+            'Content-type' => HEADER_CONTENT_TYPE,
+        ],
+        'json' => prepare_payload( $user_id, $sequence_id ),
+    ] );
+
+    $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
+    
+    foreach ( $responses as $response ) {
+        log_response( $response );
+    }
+}
+
 function prepare_payload( int $user_id, int $sequence_id ): array {
     $user = \get_user_by( 'id', $user_id );
 
