@@ -18,7 +18,7 @@ function subscribe_to_mos_members( int $user_id ) {
     $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
     
     foreach ( $responses as $response ) {
-        log_response( $response );
+        log_response( $response->getBody() );
     }
 }
 
