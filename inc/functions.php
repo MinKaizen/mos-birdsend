@@ -18,7 +18,7 @@ function subscribe_to_mos_members( int $user_id ) {
     $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
     
     foreach ( $responses as $response ) {
-        log_response( $response->getBody() );
+        log( (string) $response->getBody() );
     }
 }
 
@@ -42,9 +42,8 @@ function prepare_payload( int $user_id, int $sequence_id ): array {
     return $data;
 }
 
-function log_response( $response ): void {
-    $message = print_r( $response, true );
-
+function log( string $response ): void {
+    $message = date('D/M/Y H:i') . ": " . $response;
     $uploads_dir  = \wp_get_upload_dir();
     $logs_dir = $uploads_dir['basedir'] . '/mos-logs';
     $log_file = $logs_dir . '/birdsend.log';
