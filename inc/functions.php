@@ -2,60 +2,62 @@
 
 namespace MOS\Birdsend;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7;
+use MOS\Requests\Client;
 
 function subscribe_to_mos_members( int $user_id ) {
     $responses = [];
     $body = prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS );
     $client = new Client( [
-        'base_uri' => BASE_URL_CONTACTS,
-        'headers' => [
+        'header' => [
             'Authorization' => HEADER_AUTH,
             'Accept' => HEADER_ACCEPT,
             'Content-type' => HEADER_CONTENT_TYPE,
         ],
-        'json' => $body,
+        'content' => $body,
     ] );
 
-    try {
-        $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
-    } catch (RequestException $e) {
-        $responses['create_contact'] = $e->getResponse();
-        if ( is_exception_email_taken( $responses['create_contact'] ) ) {
-            $contact_id = get_contact_id( $body['email'] );
-            $responses['update_contact'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
-            $responses['subscribe_contact'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
-        }
+    $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
+    if ( is_response_email_taken( $responses['create_contact'] ) ) {
+        $contact_id = get_contact_id( $body['email'] );
+        $responses['update_contact'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
+        $responses['subscribe_contact'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
     }
 
     foreach ( $responses as $event_name => $response ) {
         $log_message = generate_log_message( $event_name, $response );
-        log( $log_message );
+        // log( $log_message );
+        print_r( $log_message . PHP_EOL . PHP_EOL );
     }
 }
 
-function is_exception_email_taken( $guzzle_response ) {
-    if ( !method_exists( $guzzle_response, 'getBody' ) ) {
-        return false;
+function is_exception_email_taken( string $response ): bool {
+    $decoded = json_decode( $response );
+    if ( @$decoded->errors->email[0] ) {
+        $email_error = @$decoded->errors->email[0];
     }
+    $is_email_taken = $email_error == ERROR_MESSAGE_EMAIL_TAKEN;
 
-    $body = json_decode( (string) $guzzle_response->getBody() );
-    $is_email_taken = !empty( $body->errors->email[0] ) && $body->errors->email[0] == ERROR_MESSAGE_EMAIL_TAKEN;
+    return $is_email_taken;
+}
+
+function is_response_email_taken( string $response ): bool {
+    $decoded = json_decode( $response );
+    if ( @$decoded->errors->email[0] ) {
+        $email_error = @$decoded->errors->email[0];
+    }
+    $is_email_taken = $email_error == ERROR_MESSAGE_EMAIL_TAKEN;
 
     return $is_email_taken;
 }
 
 function get_contact_id( $email ) {
     $client = new Client( [
-        'base_uri' => BASE_URL_CONTACTS,
-        'headers' => [
+        'header' => [
             'Authorization' => HEADER_AUTH,
             'Accept' => HEADER_ACCEPT,
             'Content-type' => HEADER_CONTENT_TYPE,
         ],
-        'json' => [
+        'content' => [
             'search_by' => 'email',
             'keyword' => $email,
             'page' => 1,
@@ -64,8 +66,8 @@ function get_contact_id( $email ) {
     ] );
     
     $response = $client->get( BASE_URL_CONTACTS );
-    $body = json_decode( $response->getBody());
-    $contact_id = $body->data[0]->contact_id;
+    $body = json_decode( $response);
+    $contact_id = @$body->data[0]->contact_id ? $body->data[0]->contact_id : 0;
     
     return $contact_id;
 }
@@ -103,15 +105,20 @@ function log( string $message ): void {
     file_put_contents( $log_file, "$time_stamp: $message" . PHP_EOL, \FILE_APPEND );
 }
 
-function generate_log_message( string $event_name , $guzzle_response ) {
-    if ( !method_exists( $guzzle_response, 'getBody' ) ) {
-        return "[LOG_ERROR] Tried to generate a log message for a non-guzzle response";
+function generate_log_message( string $event_name , string $response): string {
+    $decoded = @json_decode( $response );
+    if ( @$decoded->status ) {
+        $status_code = "[$decoded->status]";
     }
+    if ( @$decoded->message ) {
+        $message = "[$decoded->message]";
+    }
+    if ( @$decoded->errors ) {
+        $errors = json_encode( $decoded->errors );
+    }
+    $event_name = "[$event_name]";
 
-    $status_code = $guzzle_response->getStatusCode();
-    $reason_phrase = $guzzle_response->getReasonPhrase();
-    $body = (string) $guzzle_response->getBody();
-    $log_message = "[$event_name] [$status_code] ['$reason_phrase'] $body";
+    $log_message = implode( " ", array_filter( [$event_name, $status_code, $message, $errors, $response] ) );
 
     return $log_message;
 }

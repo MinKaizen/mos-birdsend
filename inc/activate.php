@@ -2,14 +2,18 @@
 
 namespace MOS\Birdsend\Activate;
 
-define( 'MIN_PHP_VER', '5.6.0' );
 define( 'NOTICE_ERROR', 0 );
 define( 'NOTICE_SUCCESS', 1 );
 define( 'DO_ACTION_ASYNC_CALLBACK', '\MOS\Async\add_action_async' );
+define( 'REQUESTS_CLIENT_CLASS', '\MOS\Requests\Client' );
 
 function _on_activate() {
   if ( !function_exists( DO_ACTION_ASYNC_CALLBACK ) ) {
     abort_activation( 'Could not find function definition for ' . DO_ACTION_ASYNC_CALLBACK );
+  }
+
+  if ( !class_exists( REQUESTS_CLIENT_CLASS ) ) {
+    abort_activation( 'Could not find class definition for ' . REQUESTS_CLIENT_CLASS );
   }
 
   if ( version_compare( PHP_VERSION, MIN_PHP_VER, '<' ) ) {
