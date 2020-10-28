@@ -36,11 +36,11 @@ if ( ! defined( 'WPINC' ) ) {
  */
 
 define( __NAMESPACE__ . '\NS', __NAMESPACE__ . '\\' );
-define( 'PLUGIN_NAME', 'mos-birdsend' );
-define( 'PLUGIN_VERSION', '1.0.0' );
-define( 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( NS . 'PLUGIN_NAME', 'mos-birdsend' );
+define( NS . 'PLUGIN_VERSION', '1.0.0' );
+define( NS . 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( NS . 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 // require( PLUGIN_DIR . '/inc/activate.php' );
 // \register_activation_hook( __FILE__, '\MOS\Birdsend\Activate\_on_activate' );
