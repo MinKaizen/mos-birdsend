@@ -26,6 +26,7 @@ function subscribe_to_mos_members( int $user_id ) {
     foreach ( $responses as $event_name => $response ) {
         $log_message = generate_log_message( $event_name, $response );
         log( $log_message );
+        // print_r( $log_message );
     }
 }
 
