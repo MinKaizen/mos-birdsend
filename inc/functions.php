@@ -29,16 +29,6 @@ function subscribe_to_mos_members( int $user_id ) {
     }
 }
 
-function is_exception_email_taken( string $response ): bool {
-    $decoded = json_decode( $response );
-    if ( @$decoded->errors->email[0] ) {
-        $email_error = @$decoded->errors->email[0];
-    }
-    $is_email_taken = $email_error == ERROR_MESSAGE_EMAIL_TAKEN;
-
-    return $is_email_taken;
-}
-
 function is_response_email_taken( string $response ): bool {
     $decoded = json_decode( $response );
     if ( @$decoded->errors->email[0] ) {
