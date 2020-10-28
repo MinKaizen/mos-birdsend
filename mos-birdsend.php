@@ -88,7 +88,12 @@ $mos_birdsend_plugin = new MosBirdsendPlugin();
 $mos_birdsend_plugin->init();
 
 // /**
-//  * #TEST - Uncomment to test
+//  * #TEST
+//  * 
+//  * Instructions:
+//  * 1. Uncomment this
+//  * 2. Go to functions.php > subscribe_to_mos_members()
+//  * 3. Replace log at the end with a print_r
 //  * 
 //  * Test url: /wp-json/mos/v1/test-birdsend
 //  * Expected result: prints responses (like a log file)
