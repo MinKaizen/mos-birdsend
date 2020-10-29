@@ -4,6 +4,54 @@ namespace MOS\Birdsend;
 
 use MOS\Requests\Client;
 
+
+function _on_clickbank_sale( $notification ): void {
+    $adapter = new ClickbankEventAdapter( $notification );
+
+    $item_id = $adapter->item_id();
+    
+    if ( ! in_array( $item_id, [CBID_TEST, CBID_LEGACY_PARTNER] ) ) {
+        return;
+    }
+
+    $body = [
+        'email' => $adapter->email(),
+        'fields' => [
+            'first_name' => $adapter->name(),
+            'username' => $adapter->username(),
+        ],
+        'sequence_id' => SEQUENCE_MOS_PARTNERS,
+    ];
+
+    // log( json_encode( $body ) );
+    subscribe_and_update( $body, 'partner_' );
+}
+
+function subscribe_and_update( $body, string $prefix='' ): void {
+    $responses = [];
+    $client = new Client( [
+        'header' => [
+            'Authorization' => HEADER_AUTH,
+            'Accept' => HEADER_ACCEPT,
+            'Content-type' => HEADER_CONTENT_TYPE,
+        ],
+        'content' => $body,
+    ] );
+
+    $responses[$prefix.'add'] = $client->post( BASE_URL_CONTACTS );
+    if ( is_response_email_taken( $responses[$prefix.'add'] ) ) {
+        $contact_id = get_contact_id( $body['email'] );
+        $responses[$prefix.'update'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
+        $responses[$prefix.'subscribe'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
+    }
+
+    foreach ( $responses as $event_name => $response ) {
+        $log_message = generate_log_message( $event_name, $response );
+        log( $log_message );
+        // print_r( $log_message );
+    }
+}
+
 function subscribe_to_mos_members( int $user_id ) {
     $responses = [];
     $body = prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS );

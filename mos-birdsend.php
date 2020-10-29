@@ -53,12 +53,18 @@ class MosBirdsendPlugin {
 	}
 
 	private function load_dependencies() {
-		require( PLUGIN_DIR . '/inc/functions.php' );
 		require( PLUGIN_DIR . '/inc/config.php' );
+		require( PLUGIN_DIR . '/inc/functions.php' );
+		require( PLUGIN_DIR . '/inc/ClickbankEventAdapter.php' );
 	}
 
 	private function register_actions() {
-		\MOS\Async\add_action_async( 'gform_activate_user', 'MOS\Birdsend\subscribe_to_mos_members' ); 
+		// User Activation -> Subscribe to Birdsend (Members Sequence)
+		\MOS\Async\add_action_async( 'gform_activate_user', NS.'subscribe_to_mos_members' ); 
+		
+		// Clickbank sale -> Subscribe to Birdsend (Partners Sequence)
+		\MOS\Async\add_action_async( 'clickbank_sale', NS.'_on_clickbank_sale' ); 
+		\MOS\Async\add_action_async( 'clickbank_test_sale', NS.'_on_clickbank_sale' ); 
 	}
 
 }

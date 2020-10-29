@@ -2,6 +2,8 @@
 
 namespace MOS\Birdsend;
 
+define( 'CB_INS_SECRET', 'ANTOLAMAS61952' );
+
 // Birdsend URL Endpoints
 define( 'BASE_URL_CONTACTS', 'https://api.birdsend.co/v1/contacts' );
 define( 'BASE_URL_TEST', 'https://fa9438717d678d74b5cb20e6e5b41923.m.pipedream.net' );
@@ -17,3 +19,14 @@ define( 'SEQUENCE_MOS_PARTNERS', 922 );
 
 // Error messages
 define( 'ERROR_MESSAGE_EMAIL_TAKEN', 'The Email has already been taken.' );
+
+// Clickbank item IDs
+define( 'CBID_NONE', 0 );
+define( 'CBID_TEST', 1 );
+define( 'CBID_LEGACY_PARTNER', 100 );
+define( 'CBID_MONTHLY_PARTNER', 50 );
+define( 'CBID_YEARLY_PARTNER', 55 );
+define( 'CBID_AUTOBUMP', 51 );
+define( 'CBID_OTO1', 52 );
+define( 'CBID_OTO2', 53 );
+define( 'CBID_OTO3', 54 );
