@@ -60,7 +60,7 @@ class MosBirdsendPlugin {
 
 	private function register_actions() {
 		// User Activation -> Subscribe to Birdsend (Members Sequence)
-		\MOS\Async\add_action_async( 'gform_activate_user', NS.'subscribe_to_mos_members' ); 
+		\MOS\Async\add_action_async( 'gform_activate_user', NS.'_on_user_activate' ); 
 		
 		// Clickbank sale -> Subscribe to Birdsend (Partners Sequence)
 		\MOS\Async\add_action_async( 'clickbank_sale', NS.'_on_clickbank_sale' ); 
@@ -93,29 +93,29 @@ if ( $abort_init ) {
 $mos_birdsend_plugin = new MosBirdsendPlugin();
 $mos_birdsend_plugin->init();
 
-// /**
-//  * #TEST
-//  * 
-//  * Instructions:
-//  * 1. Uncomment this
-//  * 2. Go to functions.php > subscribe_to_mos_members()
-//  * 3. Replace log at the end with a print_r
-//  * 
-//  * Test url: /wp-json/mos/v1/test-birdsend
-//  * Expected result: prints responses (like a log file)
-//  */
-// // Flush rewrite rules on init so that we don't have to keep
-// // doing it manually while testing
-// \add_action( 'init', function() {
-//   \flush_rewrite_rules(false);
-// } );
-// // Add rest route
-// \add_action( 'rest_api_init', function () {
-//   \register_rest_route('mos/v1', 'test-birdsend', [
-//     'methods' => 'GET',
-//     'callback' => function () {
-// 			$user_id = 443093;
-// 			subscribe_to_mos_members( $user_id );
-// 		},
-//   ] );
-// } );
+/**
+ * #TEST
+ * 
+ * Instructions:
+ * 1. Uncomment this
+ * 2. Go to functions.php > _on_user_activate()
+ * 3. Replace log at the end with a print_r
+ * 
+ * Test url: /wp-json/mos/v1/test-birdsend
+ * Expected result: prints responses (like a log file)
+ */
+// Flush rewrite rules on init so that we don't have to keep
+// doing it manually while testing
+\add_action( 'init', function() {
+  \flush_rewrite_rules(false);
+} );
+// Add rest route
+\add_action( 'rest_api_init', function () {
+  \register_rest_route('mos/v1', 'test-birdsend', [
+    'methods' => 'GET',
+    'callback' => function () {
+			$user_id = 443093;
+			_on_user_activate( $user_id );
+		},
+  ] );
+} );

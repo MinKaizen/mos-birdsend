@@ -4,6 +4,25 @@ namespace MOS\Birdsend;
 
 use MOS\Requests\Client;
 
+function _on_user_activate( int $user_id ) {
+    $user = \get_user_by( 'id', $user_id );
+
+    if ( !( $user instanceof \WP_User ) ) {
+        return;
+    }
+
+    $body = [
+        'sequence_id' => SEQUENCE_MOS_MEMBERS,
+        'email' => $user->get('user_email'),
+        'fields' => [
+            'first_name' => $user->get('first_name'),
+            'username' => $user->get('user_login'),
+            'ip_address' => $user->get('ip'),
+        ],
+    ];
+
+    subscribe_and_update( $body, 'member_' );
+}
 
 function _on_clickbank_sale( $notification ): void {
     $adapter = new ClickbankEventAdapter( $notification );
@@ -38,41 +57,15 @@ function subscribe_and_update( $body, string $prefix='' ): void {
         'content' => $body,
     ] );
 
-    $responses[$prefix.'add'] = $client->post( BASE_URL_CONTACTS );
-    if ( is_response_email_taken( $responses[$prefix.'add'] ) ) {
+    $responses['add'] = $client->post( BASE_URL_CONTACTS );
+    if ( is_response_email_taken( $responses['add'] ) ) {
         $contact_id = get_contact_id( $body['email'] );
-        $responses[$prefix.'update'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
-        $responses[$prefix.'subscribe'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
+        $responses['update'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
+        $responses['subscribe'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
     }
 
     foreach ( $responses as $event_name => $response ) {
-        $log_message = generate_log_message( $event_name, $response );
-        log( $log_message );
-        // print_r( $log_message );
-    }
-}
-
-function subscribe_to_mos_members( int $user_id ) {
-    $responses = [];
-    $body = prepare_payload( $user_id, SEQUENCE_MOS_MEMBERS );
-    $client = new Client( [
-        'header' => [
-            'Authorization' => HEADER_AUTH,
-            'Accept' => HEADER_ACCEPT,
-            'Content-type' => HEADER_CONTENT_TYPE,
-        ],
-        'content' => $body,
-    ] );
-
-    $responses['create_contact'] = $client->post( BASE_URL_CONTACTS );
-    if ( is_response_email_taken( $responses['create_contact'] ) ) {
-        $contact_id = get_contact_id( $body['email'] );
-        $responses['update_contact'] = $client->patch( BASE_URL_CONTACTS . "/$contact_id" );
-        $responses['subscribe_contact'] = $client->post( BASE_URL_CONTACTS . "/$contact_id/subscribe" );
-    }
-
-    foreach ( $responses as $event_name => $response ) {
-        $log_message = generate_log_message( $event_name, $response );
+        $log_message = generate_log_message( $prefix.$event_name, $response );
         log( $log_message );
         // print_r( $log_message );
     }
@@ -108,26 +101,6 @@ function get_contact_id( $email ) {
     $contact_id = @$body->data[0]->contact_id ? $body->data[0]->contact_id : 0;
     
     return $contact_id;
-}
-
-function prepare_payload( int $user_id, int $sequence_id ): array {
-    $user = \get_user_by( 'id', $user_id );
-
-    if ( !( $user instanceof \WP_User ) ) {
-        return [];
-    }
-
-    $data = [
-        'email' => $user->user_email,
-        'sequence_id' => $sequence_id,
-        'fields' => [
-            'first_name' => $user->get('first_name'),
-            'username' => $user->get('user_login'),
-            'ip_address' => $user->get('ip'),
-        ],
-    ];
-
-    return $data;
 }
 
 function log( string $message ): void {
