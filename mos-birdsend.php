@@ -42,9 +42,6 @@ define( NS . 'PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( NS . 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 define( NS . 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-// require( PLUGIN_DIR . '/inc/activate.php' );
-// \register_activation_hook( __FILE__, '\MOS\Birdsend\Activate\_on_activate' );
-
 class MosBirdsendPlugin {
 
 	public function init() {
@@ -69,29 +66,13 @@ class MosBirdsendPlugin {
 
 }
 
-function mos_birdsend_admin_error( string $message ): void {
-  $html = '<div class="notice notice-error" style="padding: 7px;"><strong>MOS Birdsend Plugin</strong>: ' . $message . '</div>';
-  \add_action( 'admin_notices', function() use ($html) {
-    echo $html;
-  } );
+require( PLUGIN_DIR . '/inc/Activator.php' );
+if ( Activator::ok_to_init() ) {
+	$mos_birdsend_plugin = new MosBirdsendPlugin();
+	$mos_birdsend_plugin->init();
+} else {
+	return;
 }
-
-if ( ! class_exists( '\MOS\Requests\Client' ) ) {
-	$abort_init = true;
-	mos_birdsend_admin_error( 'Class \MOS\Requests\Client not defined.' );
-}
-
-if ( ! function_exists( '\MOS\Async\add_action_async' ) ) {
-	$abort_init = true;
-	mos_birdsend_admin_error( 'Function \MOS\Async\add_action_async not defined.' );
-}
-
-if ( $abort_init ) {
-	exit;
-}
-
-$mos_birdsend_plugin = new MosBirdsendPlugin();
-$mos_birdsend_plugin->init();
 
 // /**
 //  * #TEST
