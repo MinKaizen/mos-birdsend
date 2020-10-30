@@ -24,7 +24,7 @@ class ClickbankEventAdapter {
 
   public function name(): string {
     $name = @$this->body->vendorVariables->mos_name;
-    $name = $name ? $name : '';
+    $name = $name ? str_replace( '%20', ' ', $name ) : '';
     return $name;
   }
 
